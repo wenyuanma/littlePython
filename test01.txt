@@ -1,0 +1,3 @@
+i am a happy girl                                                      #  4
+i am learning python now                                               #  5
+i want to be a data miner                                              #  6
