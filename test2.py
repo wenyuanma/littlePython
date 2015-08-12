@@ -1,0 +1,1 @@
+my first write file with pythonmy first write file with pythonmy first write file with pythonthe second linemy first write file with pythonthe second linethe third lines
