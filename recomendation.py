@@ -53,15 +53,20 @@ def getrecomendation(scorelist, person, simifunc=pear_sim):
     movieset = list(set(item for sublist in movies for item in sublist))
     moviescores = {}
     for movie in movieset:
-        score = 0
-        simsum = 0
-        for person in simdic:
-            if movie in scorelist[person] and simdic[person] > 0:
-                score = score + scorelist[person][movie] * simdic[person]
-                simsum = simsum + simdic[person]
-        moviescores[movie] = score / simsum
-        sortedmovie = sorted(
-            moviescores, reverse=True, key=lambda x: moviescores[x])
+        # only score movies I haven't seen yet
+        if not movie in scorelist[person]:
+            score = 0
+            simsum = 0
+            for other in simdic:
+                # ingore the similarity of zero or lower
+                if movie in scorelist[other] and simdic[other] > 0:
+                    score = score + scorelist[other][movie] * simdic[other]
+                    simsum = simsum + simdic[other]
+            moviescores[movie] = score / simsum
+    print moviescores    
+    sortedmovie = sorted(
+        moviescores, reverse=True, key=lambda x: moviescores[x])
+
     return sortedmovie
 
 
@@ -81,7 +86,9 @@ critics = {'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
                             'You, Me and Dupree': 2.0},
            'Jack Matthews': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0,
                              'The Night Listener': 3.0, 'Superman Returns': 5.0, 'You, Me and Dupree': 3.5},
-           'Toby': {'Snakes on a Plane': 4.5, 'You, Me and Dupree': 1.0, 'Superman Returns': 4.0}}
+           'Toby': {'Snakes on a Plane': 4.5, 'You, Me and Dupree': 1.0, 'Superman Returns': 4.0}
+           }
+
 print "***********similarity*************"
 print similarity(critics, "Lisa Rose", "Gene Seymour")
 
@@ -91,3 +98,4 @@ print "***********topmatchers*************"
 print topmatchers(critics, "Toby", num=3)
 print "***********getrecomendation*************"
 print getrecomendation(critics, "Toby")
+
