@@ -65,7 +65,7 @@ def getrecommendations(scorelist, person):
     movielist = transform(scorelist)
     # similarity between each two movies
     movie_similarity = item_similarity_dic(movielist)
-
+    # the movie person has not seen 
     for candidate in movie_similarity:
         if not candidate in scorelist[person]:
             sum = 0
